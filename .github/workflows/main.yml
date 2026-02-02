@@ -29,4 +29,4 @@ jobs:
         run: |
           curl -sL https://aka.ms/downloadazcopy-v10-linux | tar -xz --strip-components=1 --wildcards "*/azcopy"
           chmod +x azcopy
-          ./azcopy copy "EstrazioneMeteo.csv" "https://${{ secrets.AZ_STORAGE }}.blob.core.windows.net/${{ secrets.AZ_CONTAINER }}/EstrazioneMeteo_$(date +'%Y%m%d_%H%M%S').csv${{ secrets.AZ_SAS }}" --overwrite=true
+          ./azcopy copy "EstrazioneMeteo.csv" "https://${{ secrets.AZ_STORAGE }}.blob.core.windows.net/${{ secrets.AZ_CONTAINER }}/EstrazioneMeteo_$(date +'%Y%m%d').csv${{ secrets.AZ_SAS }}" overwrite=true
