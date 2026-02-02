@@ -17,8 +17,8 @@ jobs:
           python-version: "3.10"
 
       - name: Install requirements (se presenti)
-        if: hashFiles('requirements.txt') != ''
-        run: pip install -r requirements.txt
+        if: hashFiles('Requirements.txt') != ''
+        run: pip install -r Requirements.txt
 
       - name: Run Meteo.py
         run: python Meteo.py
