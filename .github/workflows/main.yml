@@ -1,0 +1,32 @@
+name: esegui-meteo
+
+on:
+  workflow_dispatch:     # lo lanciamo a mano oppure via Data Factory
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install requirements (se presenti)
+        if: hashFiles('requirements.txt') != ''
+        run: pip install -r requirements.txt
+
+      - name: Run Meteo.py
+        run: python Meteo.py
+
+      # Upload del CSV generato dallo script
+      # Assicuriamoci che il tuo file si chiami EstrazioneMeteo.csv
+      - name: Upload CSV to Azure Blob via SAS using azcopy
+        run: |
+          curl -sL https://aka.ms/downloadazcopy-v10-linux | tar -xz --strip-components=1 --wildcards "*/azcopy"
+          chmod +x azcopy
+          ./azcopy copy "EstrazioneMeteo.csv" "https://${{ secrets.AZ_STORAGE }}.blob.core.windows.net/${{ secrets.AZ_CONTAINER }}/EstrazioneMeteo_$(date +'%Y%m%d_%H%M%S').csv${{ secrets.AZ_SAS }}" --overwrite=true
