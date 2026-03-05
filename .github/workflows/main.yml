@@ -24,7 +24,7 @@ jobs:
         run: python Meteo.py
 
       # Upload del CSV generato dallo script
-      # Assicuriamoci che il tuo file si chiami EstrazioneMeteo.csv
+      # Mi Assicuro che il file generato dal python si chiami EstrazioneMeteo.csv
       - name: Upload CSV to Azure Blob via SAS using azcopy
         run: |
           curl -sL https://aka.ms/downloadazcopy-v10-linux | tar -xz --strip-components=1 --wildcards "*/azcopy"
